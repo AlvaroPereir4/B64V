@@ -1,0 +1,35 @@
+# Diretórios padrão
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Ambiente virtual
+venv/
+.env/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Arquivo de ícone gerado automaticamente
+assets/icon.ico
+
+# Build temporário
+dist/
+build/
+
+# Arquivos de cache do pip
+pip-log.txt
+
+# Configs pessoais
+*.bak
+*.swp
+
+# Evita subir .env ou credenciais se tiver futuramente
+.env
