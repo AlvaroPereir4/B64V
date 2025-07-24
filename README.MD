@@ -24,19 +24,3 @@ Developed with [Flet](https://flet.dev) and Python, the app provides a clean and
 Just paste your Base64 strings into the inputs under the **"Base64"** tab and switch to the **"Visualize"** tab to see them rendered in a responsive grid.
 
 Use the **Copy** button to send all images as a single composition to the clipboard (Windows only), or open **PiP Mode** to keep the visualization floating above other windows.
-
----
-
-## 🧩 Requirements
-
-- Python 3.8+
-- Dependencies:
-  - `flet`
-  - `Pillow`
-  - `win32clipboard` *(only on Windows)*
-  - `tkinter` (optional fallback for clipboard in other OS)
-
-Install dependencies via:
-
-```bash
-pip install -r requirements.txt
