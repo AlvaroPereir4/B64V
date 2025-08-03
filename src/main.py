@@ -7,9 +7,9 @@ from PIL import Image
 import io
 import os
 
-assets_dir = "assets"
-output_ico_path = os.path.join(assets_dir, "icon.ico")
-os.makedirs(assets_dir, exist_ok=True)
+
+output_ico_path = os.path.join('assets', "icon.ico")
+
 
 def main(page: ft.Page):
     page.title = "Base64 Visualizer"
@@ -19,23 +19,38 @@ def main(page: ft.Page):
     if output_ico_path and os.path.exists(output_ico_path):
         page.window_icon = output_ico_path
 
-    base64_inputs = [""] * 4
-    zoom_factor = 1.0
-    zoom_step = 0.5
-    base_size = 200
+    input_fields = [] # o campos para add os base64
+    image_fields = [] # o campo para retornar as imagens
+    print("passsou aq")
+    zoom_factor, zoom_step, base_size = 1.0, 0.5, 200
+    inputs_column = ft.Column(spacing=10, scroll="auto")
 
-    input_fields = [ft.TextField(text_size=10, hint_text=f"Base64 {i + 1}") for i in range(4)]
-    image_fields = [ft.Image(src="", fit=ft.ImageFit.CONTAIN, width=base_size, height=base_size) for _ in range(4)]
+    def add_input_field_local(input_fields, inputs_column, page):
+        index = len(input_fields) + 1
+        new_field = ft.TextField(text_size=10, hint_text=f"Base64 {index}")
+        input_fields.append(new_field)
+        inputs_column.controls.append(new_field)
+        page.update()
+
+
+    add_input_field_local(input_fields, inputs_column, page)
+
+
+
+    image_fields = [ft.Image(src="", fit=ft.ImageFit.CONTAIN, width=base_size, height=base_size)
+                    for _ in range(len(input_fields))]
 
     grid_view_container = ft.Container()
 
     def build_grid_view():
         max_size = int(base_size * zoom_factor)
+        while len(image_fields) < len(input_fields):
+            image_fields.append(ft.Image(src="", fit=ft.ImageFit.CONTAIN, width=base_size, height=base_size))
         for img_field in image_fields:
             img_field.width = max_size
             img_field.height = max_size
         return ft.GridView(
-            controls=image_fields,
+            controls=image_fields[:len(input_fields)],
             max_extent=max_size,
             child_aspect_ratio=1,
             spacing=10,
@@ -43,9 +58,13 @@ def main(page: ft.Page):
         )
 
     def update_images():
-        for i in range(4):
+        while len(image_fields) < len(input_fields):
+            image_fields.append(ft.Image(src="", fit=ft.ImageFit.CONTAIN, width=base_size, height=base_size))
+
+        for i in range(len(input_fields)):
             img_src = decode_base64_to_image(input_fields[i].value)
             image_fields[i].src = img_src or ""
+
         grid_view_container.content = build_grid_view()
         page.update()
 
@@ -157,6 +176,14 @@ def main(page: ft.Page):
         page.snack_bar.open = True
         page.update()
 
+    def reset(e=None):
+        input_fields.clear()
+        image_fields.clear()
+        inputs_column.controls.clear()
+        grid_view_container.content = build_grid_view()
+        add_input_field_local(input_fields, inputs_column, page)
+        page.update()
+
     def on_key(e: ft.KeyboardEvent):
         if e.key in ("+", "="):
             zoom_in()
@@ -173,10 +200,13 @@ def main(page: ft.Page):
             ft.Tab(
                 text="Base64",
                 content=ft.Column(
-                    controls=[ft.Column(controls=input_fields, spacing=10, scroll="auto")],
-                    expand=True
-                )
-            ),
+    controls=[
+        inputs_column,
+        ft.Row(
+            controls=[
+                ft.ElevatedButton(text="+", on_click=lambda e: add_input_field_local(input_fields, inputs_column, page)),
+                ft.ElevatedButton(text="↩️", on_click=reset)
+            ], alignment=ft.MainAxisAlignment.START)], expand=True)),
             ft.Tab(
                 text="Visualize",
                 content=ft.Container(
@@ -202,4 +232,5 @@ def main(page: ft.Page):
     grid_view_container.content = build_grid_view()
     page.add(tabs)
 
-ft.app(target=main, assets_dir=assets_dir)
+
+ft.app(target=main, assets_dir='assets')

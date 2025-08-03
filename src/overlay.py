@@ -122,11 +122,11 @@ class ImageOverlayApp:
 
         self.root.update_idletasks()
 
-    def zoom_in(self):
+    def zoom_in(self): ## todo: adicionar no utils64.py, e ajeitar pra funcionar no modo PiP e main.
         self.zoom_factor = min(3.0, self.zoom_factor + self.zoom_step)
         self.update_image_content()
 
-    def zoom_out(self):
+    def zoom_out(self): ## todo: adicionar no utils64.py, e ajeitar pra funcionar no modo PiP e main.
         self.zoom_factor = max(0.1, self.zoom_factor - self.zoom_step)
         self.update_image_content()
 
