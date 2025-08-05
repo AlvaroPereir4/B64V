@@ -122,11 +122,11 @@ class ImageOverlayApp:
 
         self.root.update_idletasks()
 
-    def zoom_in(self): ## todo: adicionar no utils64.py, e ajeitar pra funcionar no modo PiP e main.
+    def zoom_in(self):
         self.zoom_factor = min(3.0, self.zoom_factor + self.zoom_step)
         self.update_image_content()
 
-    def zoom_out(self): ## todo: adicionar no utils64.py, e ajeitar pra funcionar no modo PiP e main.
+    def zoom_out(self):
         self.zoom_factor = max(0.1, self.zoom_factor - self.zoom_step)
         self.update_image_content()
 
@@ -136,7 +136,6 @@ class ImageOverlayApp:
         self.root.bind("<Control-minus>", self.zoom_out)
         self.root.bind("<Escape>", lambda e: self.root.destroy())
         self.image_display_frame.bind("<Configure>", self.update_image_content)
-
 
 def show_overlay(base64_list):
     root = tk.Tk()

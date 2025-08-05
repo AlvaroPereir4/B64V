@@ -6,36 +6,90 @@ import win32clipboard
 from PIL import Image
 import io
 import os
+from utils.flet_style import style
+from utils.image_to_base64 import image_file_to_base64
 
 
 output_ico_path = os.path.join('assets', "icon.ico")
 
 
 def main(page: ft.Page):
-    page.title = "Base64 Visualizer"
-    page.window.width = 420
-    page.window.height = 550
-
-    if output_ico_path and os.path.exists(output_ico_path):
-        page.window_icon = output_ico_path
-
-    input_fields = [] # o campos para add os base64
-    image_fields = [] # o campo para retornar as imagens
-    print("passsou aq")
+    page = style(page)
+    input_fields, image_fields = [], []
     zoom_factor, zoom_step, base_size = 1.0, 0.5, 200
+
     inputs_column = ft.Column(spacing=10, scroll="auto")
+
+    def build_input_field_with_preview(index, input_fields, inputs_column, page):
+        base_size = 60
+        text_field = ft.TextField(text_size=10, hint_text=f"Base64 {index}", expand=True)
+        input_fields.append(text_field)
+
+        image_preview = None  # só cria se necessário
+
+        def update_preview(_):
+            nonlocal image_preview
+            from base64_utils import decode_base64_to_image
+            preview_src = decode_base64_to_image(text_field.value)
+
+            if preview_src:
+                if not image_preview:
+                    image_preview = ft.Image(
+                        src=preview_src,
+                        width=base_size,
+                        height=base_size,
+                        fit=ft.ImageFit.CONTAIN
+                    )
+                    row.controls.append(image_preview)
+                else:
+                    image_preview.src = preview_src
+                page.update()
+
+        text_field.on_change = update_preview
+
+        def pick_file_result(e: ft.FilePickerResultEvent):
+            if e.files:
+                b64 = image_file_to_base64(e.files[0].path)
+                text_field.value = b64
+                update_preview(None)
+
+        file_picker = ft.FilePicker(on_result=pick_file_result)
+        page.overlay.append(file_picker)
+
+        pick_button = ft.IconButton(icon=ft.Icons.FOLDER_OPEN, on_click=lambda _: file_picker.pick_files(
+            allow_multiple=False,
+            allowed_extensions=["jpg", "jpeg", "png"]
+        ))
+
+        row = ft.Row([text_field, pick_button], alignment=ft.MainAxisAlignment.START)
+        inputs_column.controls.append(row)
+        page.update()
 
     def add_input_field_local(input_fields, inputs_column, page):
         index = len(input_fields) + 1
-        new_field = ft.TextField(text_size=10, hint_text=f"Base64 {index}")
-        input_fields.append(new_field)
-        inputs_column.controls.append(new_field)
+        text_field = ft.TextField(text_size=10, hint_text=f"Base64 {index}", expand=True)
+        input_fields.append(text_field)
+
+        def pick_file_result(e: ft.FilePickerResultEvent):
+            if e.files:
+                from utils.image_to_base64 import image_file_to_base64
+                b64 = image_file_to_base64(e.files[0].path)
+                text_field.value = b64
+                page.update()
+
+        file_picker = ft.FilePicker(on_result=pick_file_result)
+        page.overlay.append(file_picker)
+
+        pick_button = ft.IconButton(icon=ft.Icons.FOLDER_OPEN, on_click=lambda _: file_picker.pick_files(
+            allow_multiple=False,
+            allowed_extensions=["jpg", "jpeg", "png"]
+        ))
+
+        row = ft.Row([text_field, pick_button], alignment=ft.MainAxisAlignment.START)
+        inputs_column.controls.append(row)
         page.update()
 
-
-    add_input_field_local(input_fields, inputs_column, page)
-
-
+    build_input_field_with_preview(len(input_fields) + 1, input_fields, inputs_column, page)
 
     image_fields = [ft.Image(src="", fit=ft.ImageFit.CONTAIN, width=base_size, height=base_size)
                     for _ in range(len(input_fields))]
@@ -199,21 +253,16 @@ def main(page: ft.Page):
         tabs=[
             ft.Tab(
                 text="Base64",
-                content=ft.Column(
-    controls=[
-        inputs_column,
-        ft.Row(
-            controls=[
-                ft.ElevatedButton(text="+", on_click=lambda e: add_input_field_local(input_fields, inputs_column, page)),
-                ft.ElevatedButton(text="↩️", on_click=reset)
-            ], alignment=ft.MainAxisAlignment.START)], expand=True)),
+                content=ft.Column(controls=[inputs_column,
+                                            ft.Row(controls=[
+                                                ft.ElevatedButton(text="+", on_click=lambda
+                                                e: build_input_field_with_preview(len(
+                                                input_fields) + 1, input_fields, inputs_column, page)),
+                                                ft.ElevatedButton(text="↩️", on_click=reset)],
+                                                alignment=ft.MainAxisAlignment.START)], expand=True, scroll='auto')),
             ft.Tab(
                 text="Visualize",
-                content=ft.Container(
-                    expand=True,
-                    content=ft.Column(
-                        expand=True,
-                        scroll="auto",
+                content=ft.Container(expand=True, content=ft.Column(expand=True, scroll="auto",
                         controls=[
                             grid_view_container,
                             ft.Row([
