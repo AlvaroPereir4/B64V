@@ -1,35 +1,49 @@
-# Diretórios padrão
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
-*.log
 
-# Ambiente virtual
+# Virtual environment
+.venv/
+env/
 venv/
-.env/
 
-# Arquivos de sistema
-.DS_Store
-Thumbs.db
-
-# IDEs
+# Editor configs
 .vscode/
 .idea/
 
-# Arquivo de ícone gerado automaticamente
+# Byte-compiled / optimized / DLL files
+*.so
+*.dll
+*.dylib
+*.pdb
+
+# Build directories
+build/
+dist/
+*.spec
+
+# Distribution / packaging
+*.egg-info/
+.eggs/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Compiled UI files or temp files
+*.toc
+*.pyz
+*.zip
+*.html
+*.txt
+
+# App-specific
 assets/icon.ico
 
-# Build temporário
-dist/
-build/
-
-# Arquivos de cache do pip
-pip-log.txt
-
-# Configs pessoais
-*.bak
-*.swp
-
-# Evita subir .env ou credenciais se tiver futuramente
-.env
+# LFS suggestions
+*.exe
