@@ -1,3 +1,6 @@
+    - Feature: Made "Visualize" page buttons sticky during scroll; removed deprecated Flet attributes.
+    - Fix: Clipboard and paste functionality now works across Windows, Linux, and macOS environments.
+    - Feature: Implemented dynamic grid copying to support any number of images, fixing out-of-range errors.
     - Feature: Added functionality to upload images from file, automatically decode them to base64, and display the preview.
     - Feature: Implemented image preview icons next to each input field for better visualization.
     - Feature: Add `Reset` function to clear all Base64 input and image fields.
