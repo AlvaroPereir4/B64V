@@ -35,4 +35,4 @@ flet pack main.py --icon assets/icon.ico --name "Base64Visualizer"
 
 ## app-demo
 
-![App Demo](assets/demo.gif)
+![App Demo](src/assets/demo.gif)
