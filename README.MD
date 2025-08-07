@@ -31,3 +31,5 @@ If you have Python and Flet installed:
 
 ```bash
 flet pack main.py --icon assets/icon.ico --name "Base64Visualizer"
+
+![App Demo](assets/demo.gif)
