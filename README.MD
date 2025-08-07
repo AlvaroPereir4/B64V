@@ -32,4 +32,7 @@ If you have Python and Flet installed:
 ```bash
 flet pack main.py --icon assets/icon.ico --name "Base64Visualizer"
 
+
+## app-demo
+
 ![App Demo](assets/demo.gif)
