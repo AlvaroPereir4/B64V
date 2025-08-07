@@ -25,7 +25,7 @@ Built with [Flet](https://flet.dev) and Python, the app features an intuitive an
 - Extract the contents.
 - Run the executable `Base64Visualizer.exe` to launch the app instantly.
 
-### 🧪 Option 2: Build Locally via Flet
+### 🧪 Option 2: Build via Flet
 
 If you have Python and Flet installed:
 
@@ -35,4 +35,4 @@ flet pack main.py --icon assets/icon.ico --name "Base64Visualizer"
 
 ## app-demo
 
-![App Demo](C:\Users\alvar\PycharmProjects\PythonProject1\src\assets\demo.gif)
+![App Demo](assets/demo.gif)
