@@ -1,26 +1,33 @@
 # 🖼️ B64V – Base64 Visualizer
 
-**B64V** (Base64 Visualizer) is a lightweight cross-platform desktop app to **decode, visualize, and manipulate multiple Base64 images simultaneously**.
+**B64V** (Base64 Visualizer) is a lightweight and cross-platform desktop app to **decode, preview, and manipulate multiple Base64 images in real-time**.
 
-Developed with [Flet](https://flet.dev) and Python, the app provides a clean and interactive interface for previewing Base64-encoded images, zooming, copying, and even overlaying them on screen like YouTube's PiP mode.
+Built with [Flet](https://flet.dev) and Python, the app features an intuitive and dynamic interface for displaying Base64-encoded images — including zoom controls, image composition, and an always-on-top overlay similar to YouTube’s PiP (Picture-in-Picture) mode.
 
 ---
 
 ## 🚀 Features
 
-- 🔢 **Support for up to 4 Base64 inputs simultaneously**
-- 🖼️ **Responsive visual grid layout**
-- 🧭 **Zoom in / Zoom out** control for image scaling
-- 📋 **Copy** all 4 images as a composed collage directly to clipboard *(Windows only)*
-- 📌 **PiP Mode** (always-on-top floating overlay to visualize final layout)
-- 🪟 Custom window dimensions and icon handling
-- 🧠 Intelligent auto-resize of images to fit within consistent bounds
-- ⚠️ Graceful fallback when copy is attempted on unsupported platforms (Linux/macOS)
+- 🔢 **Support for multiple Base64 inputs**
+- 🖼️ **Responsive grid layout** for clear and organized image visualization
+- 🧭 **Zoom In / Zoom Out** to fine-tune image display
+- 📋 **Copy to clipboard**: Compose all images into one and copy (Windows only)
+- 📌 **PiP Mode**: Floating overlay for always-on-top image preview
+- ➕ **Add/Remove Base64 fields** dynamically
 
 ---
 
-## 💡 How It Works
+## 🛠️ How to Use
 
-Just paste your Base64 strings into the inputs under the **"Base64"** tab and switch to the **"Visualize"** tab to see them rendered in a responsive grid.
+### 🟢 Option 1: Use the Executable
 
-Use the **Copy** button to send all images as a single composition to the clipboard (Windows only), or open **PiP Mode** to keep the visualization floating above other windows.
+- Download the `.zip` file from the [Releases](#) section.
+- Extract the contents.
+- Run the executable `Base64Visualizer.exe` to launch the app instantly.
+
+### 🧪 Option 2: Build Locally via Flet
+
+If you have Python and Flet installed:
+
+```bash
+flet pack main.py --icon assets/icon.ico --name "Base64Visualizer"
